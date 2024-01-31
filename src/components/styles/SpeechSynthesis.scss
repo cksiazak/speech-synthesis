@@ -19,13 +19,53 @@ form {
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
-    height: 80%;
+    height: 90%;
     padding: 10px;
+    padding-bottom: 0px;
     background: $melon;
     border: none;
 
     &:focus-visible {
       outline: $purple;
+    }
+  }
+}
+
+.controls {
+  width: 100%;
+  height: 10%;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  select {
+    background: $mulberry;
+    border-radius: 5px;
+    border: none;
+    padding-left: 10px;
+  }
+
+  .languages {
+    width: 18%;
+    height: 100%;
+  }
+
+  .voices {
+    width: 60%;
+    height: 100%;
+  }
+
+  .play-button {
+    width: 18%;
+    height: 100%;
+    border-radius: 5px;
+    background: $purple;
+    color: white;
+    border: none;
+
+    &:hover {
+      cursor: pointer;
     }
   }
 }

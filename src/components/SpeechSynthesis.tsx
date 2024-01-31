@@ -6,10 +6,17 @@ import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis'
 
 const SpeechSynthesis = () => {
   const [text, setText] = useState('')
-  const { speak, voices, voice, languages, setVoice, setLanguage } = useSpeechSynthesis()
+  const { selection, control, state } = useSpeechSynthesis()
 
   const handleTextAreaUpdate = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value)
+    control.reinitialize()
+  }
+
+  const handleButtonText = () => {
+    if (state.isPlaying) return 'Pause'
+    if (state.isPaused) return 'Resume'
+    return 'Play'
   }
 
   return (
@@ -20,26 +27,38 @@ const SpeechSynthesis = () => {
         value={text}
         placeholder='Type some text here...'
       />
-      <div>
-        <select name='language' onChange={e => setLanguage(e.target.value)}>
+      <div className='controls'>
+        <select className='languages' name='language' onChange={e => control.setLanguage(e.target.value)}>
           <option value="">All</option>
-          {languages.map((lang, i) => (
+          {selection.languages.map((lang, i) => (
             <option key={`${lang}_${i}`} value={lang}>
               {lang}
             </option>
           ))}
         </select>
-        <select name='voices' value={voice} onChange={(e) => setVoice(e.target.value)}>
+        <select className='voices' name='voices' value={selection.voice} onChange={(e) => control.setVoice(e.target.value)}>
           <option value="">Default</option>
-          {voices.map((voice, i) => (
+          {selection.voices.map((voice, i) => (
             <option key={`${voice}_${i}`} value={voice}>{voice}</option>
           ))}
         </select>
-        <button onClick={(e) => {
+        <button className='play-button' onClick={(e) => {
           e.preventDefault()
-          speak(text)
+
+          if (state.isPlaying) {
+            control.pause()
+          }
+
+          if (state.isPaused) {
+            control.resume()
+          }
+
+          if (state.isInitialized) {
+            const initialSpeech = 'For this to work, you need to type something in the text area.'
+            control.speak(text || initialSpeech)
+          }
         }}>
-          Speak
+          {handleButtonText()}
         </button>
       </div>
     </form>
