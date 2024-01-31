@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Speech Synthesis",
+  "name": "SpeechSynthesis",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,0 +1,21 @@
+@import './styles/colors';
+
+.App {
+  background: $dark-purple;
+  height: 100dvh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    width: 50%;
+    max-width: 900px;
+    height: 70%;
+    max-height: 600px;
+    background: $rosy-brown;
+    border-radius: 2%;
+    overflow: hidden;
+    padding: 15px;
+  }
+}
