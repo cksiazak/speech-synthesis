@@ -28,7 +28,11 @@ const SpeechSynthesis = () => {
         placeholder='Type some text here...'
       />
       <div className='controls'>
-        <select className='languages' name='language' onChange={e => control.setLanguage(e.target.value)}>
+        <select
+          className='languages'
+          name='language'
+          onChange={e => control.setLanguage(e.target.value)}
+        >
           <option value="">All</option>
           {selection.languages.map((lang, i) => (
             <option key={`${lang}_${i}`} value={lang}>
@@ -36,28 +40,36 @@ const SpeechSynthesis = () => {
             </option>
           ))}
         </select>
-        <select className='voices' name='voices' value={selection.voice} onChange={(e) => control.setVoice(e.target.value)}>
+        <select
+          className='voices'
+          name='voices'
+          value={selection.voice}
+          onChange={(e) => control.setVoice(e.target.value)}
+        >
           <option value="">Default</option>
           {selection.voices.map((voice, i) => (
             <option key={`${voice}_${i}`} value={voice}>{voice}</option>
           ))}
         </select>
-        <button className='play-button' onClick={(e) => {
-          e.preventDefault()
+        <button
+          className='play-button'
+          onClick={(e) => {
+            e.preventDefault()
 
-          if (state.isPlaying) {
-            control.pause()
-          }
+            if (state.isPlaying) {
+              control.pause()
+            }
 
-          if (state.isPaused) {
-            control.resume()
-          }
+            if (state.isPaused) {
+              control.resume()
+            }
 
-          if (state.isInitialized) {
-            const initialSpeech = 'For this to work, you need to type something in the text area.'
-            control.speak(text || initialSpeech)
+            if (state.isInitialized) {
+              const initialSpeech = 'For this to work, you need to type something in the text area.'
+              control.speak(text || initialSpeech)
+            }
           }
-        }}>
+        }>
           {handleButtonText()}
         </button>
       </div>

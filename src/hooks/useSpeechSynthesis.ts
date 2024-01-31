@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 
 enum PlayState {
   NONE = 'none',
@@ -8,33 +8,31 @@ enum PlayState {
 
 export const useSpeechSynthesis = () => {
   const speech = useMemo(() => new SpeechSynthesisUtterance(), [])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const voices = window?.speechSynthesis?.getVoices() || []
+  const voiceNames = voices.map?.(voiceName => voiceName.name) || []
   const languages = [...new Set(voices?.map?.(voice => voice.lang))]
   
-  // language selection
-  const [selectedLanguage, setSelectedLanguage] = useState('')
+  // voice selection
   const [selectedVoice, setSelectedVoice] = useState('')
-  const [availableVoices, setAvailableVoices] = useState<string[]>([])
+  const [availableVoices, setAvailableVoices] = useState<string[]>(voiceNames)
 
   // playback state
   const [playState, setPlayState] = useState<PlayState>(PlayState.NONE)
-
   speech.onend = () => {
     setPlayState(PlayState.NONE)
   }
 
   // filters and handlers
-  const filterVoices = useCallback((lang: string) => {
-    const selectableVoices = selectedLanguage ? voices?.filter(voice => voice.lang === lang) : voices
-    const voiceNames = selectableVoices?.map?.(voiceName => voiceName.name) || []
-    return voiceNames
-  }, [selectedLanguage, voices])
+  const filterVoices = (lang?: string) => {
+    const selectableVoices = lang ? voices?.filter(voice => voice.lang === lang) : voices
+    const vNames = selectableVoices?.map?.(voiceName => voiceName.name) || []
+    return vNames
+  }
 
-  const handleAvailableVoices = useCallback((lang: string) => {
-    const voiceNames = filterVoices(lang)
-    setAvailableVoices(voiceNames)
-  }, [filterVoices])
+  const handleAvailableVoices = (lang?: string) => {
+    const vNames = filterVoices(lang)
+    setAvailableVoices(vNames)
+  }
 
   // controls
   const speak = (text: string) => {
@@ -46,15 +44,17 @@ export const useSpeechSynthesis = () => {
 
   const setLanguage = (lang: string) => {
     let newLang = lang ?? null
-    setSelectedLanguage(newLang)
+    handleAvailableVoices(newLang)
+    const firstVoiceInLanguage = lang ? filterVoices(lang)[0] : ''
+    setVoice(firstVoiceInLanguage)
   }
 
-  const setVoice = useCallback((name: string) => {
+  const setVoice = (name: string) => {
     let newVoice = name ?? null
     const voice = voices.find(item => item.name === newVoice) as SpeechSynthesisVoice
     speech.voice = voice
     setSelectedVoice(newVoice ?? '')
-  }, [speech, voices])
+  }
 
   const pause = () => {
     window.speechSynthesis.pause()
@@ -70,16 +70,6 @@ export const useSpeechSynthesis = () => {
     window.speechSynthesis.cancel()
     setPlayState(PlayState.NONE)
   }
-
-  // effects
-  useEffect(() => {
-    handleAvailableVoices(selectedLanguage)
-  }, [handleAvailableVoices, selectedLanguage])
-
-  useEffect(() => {
-    const firstVoiceInLanguage = selectedLanguage ? filterVoices(selectedLanguage)[0] : ''
-    setVoice(firstVoiceInLanguage)
-  }, [availableVoices, filterVoices, selectedLanguage, setVoice])
 
   return {
     selection: {
