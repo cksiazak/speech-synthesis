@@ -8,7 +8,8 @@ enum PlayState {
 
 export const useSpeechSynthesis = () => {
   const speech = useMemo(() => new SpeechSynthesisUtterance(), [])
-  const voices = useMemo(() => window?.speechSynthesis?.getVoices() || [], [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const voices = window?.speechSynthesis?.getVoices() || []
   const languages = [...new Set(voices?.map?.(voice => voice.lang))]
   
   // language selection
