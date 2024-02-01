@@ -2,7 +2,7 @@
 
 .App {
   background: $dark-purple;
-  height: 100dvh;
+  height: 100vh;
   margin: 0;
   display: flex;
   align-items: center;
@@ -17,5 +17,9 @@
     border-radius: 2%;
     overflow: hidden;
     padding: 15px;
+
+    @media (max-width: 1000px) {
+      width: 80%;
+    }
   }
 }

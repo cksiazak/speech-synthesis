@@ -5553,11 +5553,6 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
-iso639-codes@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/iso639-codes/-/iso639-codes-1.0.1.tgz#674a45cdabbfdf3719b8b971b93ca1eedbbb4a1d"
-  integrity sha512-jdTSv8yn6D7GODDrRtuWG7y3du3aoa+ki5H8h/Y48/NleNAd7Fw/M2niTTLXGH4QnqhJ98hg1JMQtP9csQ31Lg==
-
 istanbul-lib-coverage@^3.0.0, istanbul-lib-coverage@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/istanbul-lib-coverage/-/istanbul-lib-coverage-3.2.2.tgz#2d166c4b0644d43a39f04bf6c2edd1e585f31756"
@@ -6329,11 +6324,6 @@ klona@^2.0.4, klona@^2.0.5:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.6.tgz#85bffbf819c03b2f53270412420a4555ef882e22"
   integrity sha512-dhG34DXATL5hSxJbIexCft8FChFXtmskoZYnoPWjXQuebWYCNkVeV3KkGegCK9CP1oswI/vQibS2GY7Em/sJJA==
 
-langs@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/langs/-/langs-2.0.0.tgz#00c32ce48152a49a614450b9ba2632ab58a0a364"
-  integrity sha512-v4pxOBEQVN1WBTfB1crhTtxzNLZU9HPWgadlwzWKISJtt6Ku/CnpBrwVy+jFv8StjxsPfwPFzO0CMwdZLJ0/BA==
-
 language-subtag-registry@^0.3.20:
   version "0.3.22"
   resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.22.tgz#2e1500861b2e457eba7e7ae86877cbd08fa1fd1d"
@@ -6408,15 +6398,6 @@ loader-utils@^3.2.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-3.2.1.tgz#4fb104b599daafd82ef3e1a41fb9265f87e1f576"
   integrity sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==
-
-locale-country-codes@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/locale-country-codes/-/locale-country-codes-1.3.1.tgz#1e3915fbf23735d4cdea6508fd07d3fc5b06214c"
-  integrity sha512-Z+Xyv5NijK2ZWc4/kPz1UDmtwy/f3ZVPjsJ3qQMPZXH8e3US2c9tp+FmvrgaSpLW8EjyOCO3W4G71VEBGw4Tyw==
-  dependencies:
-    iso639-codes "^1.0.1"
-    langs "^2.0.0"
-    windows-locale "^1.1.0"
 
 locate-path@^3.0.0:
   version "3.0.0"
@@ -9571,11 +9552,6 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
-
-windows-locale@^1.1.0:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/windows-locale/-/windows-locale-1.1.3.tgz#df0c6be87e719e84926e831fd4499f2f370e85a8"
-  integrity sha512-0OlMOPNGj7GTB6C7WmqS3o4eydjnoYj0uwot2KJf7E0JUucwYwzkcvCWQwnuOV60WqDMeGJpSankgveNMj5r0g==
 
 word-wrap@~1.2.3:
   version "1.2.5"

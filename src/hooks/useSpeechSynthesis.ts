@@ -15,6 +15,8 @@ export const useSpeechSynthesis = () => {
   const [availableVoices, setAvailableVoices] = useState<string[]>([])
   const [languages, setLanguages] = useState<string[]>([])
 
+  console.log('languages', languages)
+
   // voice selection
   const [selectedVoiceName, setSelectedVoiceName] = useState('')
   const [selectedSpeechSynthesis, setSelectedSpeechSynthesis] = useState<SpeechSynthesisVoice | null>(null)
@@ -83,7 +85,7 @@ export const useSpeechSynthesis = () => {
           setVoices(nativeVoices)
           const vNames = nativeVoices?.map((voice) => voice.name) || []
           setAvailableVoices(vNames)
-          const vLanguages = [...new Set(nativeVoices?.map?.(voice => voice.lang))]
+          const vLanguages = [...new Set(nativeVoices?.map?.(voice => voice.lang))].sort((a, b) => a.charAt(0).localeCompare(b.charAt(0)))
           setLanguages(vLanguages)
       }
       else {
