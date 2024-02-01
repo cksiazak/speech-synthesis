@@ -15,8 +15,6 @@ export const useSpeechSynthesis = () => {
   const [availableVoices, setAvailableVoices] = useState<string[]>([])
   const [languages, setLanguages] = useState<string[]>([])
 
-  console.log('languages', languages)
-
   // voice selection
   const [selectedVoiceName, setSelectedVoiceName] = useState('')
   const [selectedSpeechSynthesis, setSelectedSpeechSynthesis] = useState<SpeechSynthesisVoice | null>(null)
@@ -42,7 +40,7 @@ export const useSpeechSynthesis = () => {
   // controls
   const speak = (text: string) => {
     speech.text = text
-    speech.rate = 1
+    speech.rate = 0.94
     speech.voice = selectedSpeechSynthesis
     synth.speak(speech)
     setPlayState(PlayState.PLAYING)
@@ -83,12 +81,16 @@ export const useSpeechSynthesis = () => {
     const nativeVoices = synth.getVoices();
     if (nativeVoices.length !== 0) {
           setVoices(nativeVoices)
+
           const vNames = nativeVoices?.map((voice) => voice.name) || []
           setAvailableVoices(vNames)
-          const vLanguages = [...new Set(nativeVoices?.map?.(voice => voice.lang))].sort((a, b) => a.charAt(0).localeCompare(b.charAt(0)))
+
+          const vLanguages = [
+            ...new Set(nativeVoices?.map?.(voice => voice.lang))
+          ].sort((a, b) => a.charAt(0).localeCompare(b.charAt(0)))
+
           setLanguages(vLanguages)
-      }
-      else {
+      } else {
           setTimeout(() => loadVoicesWhenAvailable(), 10)
       }
   }
