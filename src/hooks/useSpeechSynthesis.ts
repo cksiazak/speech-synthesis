@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 
 enum PlayState {
   NONE = 'none',
@@ -7,14 +7,17 @@ enum PlayState {
 }
 
 export const useSpeechSynthesis = () => {
-  const speech = useMemo(() => new SpeechSynthesisUtterance(), [])
-  const voices = window?.speechSynthesis?.getVoices() || []
-  const voiceNames = voices.map?.(voiceName => voiceName.name) || []
-  const languages = [...new Set(voices?.map?.(voice => voice.lang))]
-  
+  const speech = new SpeechSynthesisUtterance()
+  const synth = window.speechSynthesis
+
+  // availability
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>()
+  const [availableVoices, setAvailableVoices] = useState<string[]>([])
+  const [languages, setLanguages] = useState<string[]>([])
+
   // voice selection
-  const [selectedVoice, setSelectedVoice] = useState('')
-  const [availableVoices, setAvailableVoices] = useState<string[]>(voiceNames)
+  const [selectedVoiceName, setSelectedVoiceName] = useState('')
+  const [selectedSpeechSynthesis, setSelectedSpeechSynthesis] = useState<SpeechSynthesisVoice | null>(null)
 
   // playback state
   const [playState, setPlayState] = useState<PlayState>(PlayState.NONE)
@@ -38,43 +41,66 @@ export const useSpeechSynthesis = () => {
   const speak = (text: string) => {
     speech.text = text
     speech.rate = 1
-    window.speechSynthesis.speak(speech)
+    speech.voice = selectedSpeechSynthesis
+    synth.speak(speech)
     setPlayState(PlayState.PLAYING)
   }
 
   const setLanguage = (lang: string) => {
-    let newLang = lang ?? null
+    const newLang = lang ?? null
     handleAvailableVoices(newLang)
     const firstVoiceInLanguage = lang ? filterVoices(lang)[0] : ''
     setVoice(firstVoiceInLanguage)
   }
 
   const setVoice = (name: string) => {
-    let newVoice = name ?? null
-    const voice = voices.find(item => item.name === newVoice) as SpeechSynthesisVoice
-    speech.voice = voice
-    setSelectedVoice(newVoice ?? '')
+    const newVoice = name ?? null
+    const voice = voices?.find(item => item.name === newVoice) as SpeechSynthesisVoice
+    setSelectedSpeechSynthesis(voice)
+    setSelectedVoiceName(newVoice ?? '')
   }
 
   const pause = () => {
-    window.speechSynthesis.pause()
+    synth.pause()
     setPlayState(PlayState.PAUSED)
   }
 
   const resume = () => {
-    window.speechSynthesis.resume()
+    synth.resume()
     setPlayState(PlayState.PLAYING)
   }
 
   const reinitialize = () => {
-    window.speechSynthesis.cancel()
+    synth.cancel()
     setPlayState(PlayState.NONE)
   }
+
+  // initialization
+  // -- this should help load voices without needing to refresh
+  const loadVoicesWhenAvailable = () => {
+    const nativeVoices = synth.getVoices();
+    if (nativeVoices.length !== 0) {
+          setVoices(nativeVoices)
+          const vNames = nativeVoices?.map((voice) => voice.name) || []
+          setAvailableVoices(vNames)
+          const vLanguages = [...new Set(nativeVoices?.map?.(voice => voice.lang))]
+          setLanguages(vLanguages)
+      }
+      else {
+          setTimeout(() => loadVoicesWhenAvailable(), 10)
+      }
+  }
+
+
+  useEffect(() => {
+    loadVoicesWhenAvailable()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return {
     selection: {
       voices: availableVoices,
-      voice: selectedVoice,
+      voice: selectedVoiceName,
       languages,
     },
     control: {

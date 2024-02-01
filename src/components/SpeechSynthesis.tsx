@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react'
+import * as locale from 'locale-country-codes'
 import './styles/SpeechSynthesis.scss'
 
 import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis'
@@ -36,7 +37,7 @@ const SpeechSynthesis = () => {
           <option value="">All</option>
           {selection.languages.map((lang, i) => (
             <option key={`${lang}_${i}`} value={lang}>
-              {lang}
+              {locale.getByTag(lang).location}
             </option>
           ))}
         </select>
