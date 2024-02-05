@@ -29,29 +29,33 @@ const SpeechSynthesis = () => {
         placeholder='Type some text here...'
       />
       <div className='controls'>
-        <select
-          className='languages'
-          name='language'
-          onChange={e => control.setLanguage(e.target.value)}
-        >
-          <option value="">All</option>
-          {selection.languages.map((lang, i) => (
-            <option key={`${lang}_${i}`} value={lang}>
-              {countryCodes?.[lang as keyof typeof countryCodes]}
-            </option>
-          ))}
-        </select>
-        <select
-          className='voices'
-          name='voices'
-          value={selection.voice}
-          onChange={(e) => control.setVoice(e.target.value)}
-        >
-          <option value="">Default</option>
-          {selection.voices.map((voice, i) => (
-            <option key={`${voice}_${i}`} value={voice}>{voice}</option>
-          ))}
-        </select>
+        <div className='control languages'>
+          <label htmlFor='language'>Language</label>
+          <select
+            name='language'
+            onChange={e => control.setLanguage(e.target.value)}
+            >
+            <option value="">All</option>
+            {selection.languages.map((lang, i) => (
+              <option key={`${lang}_${i}`} value={lang}>
+                {countryCodes?.[lang as keyof typeof countryCodes]}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className='control voices'>
+          <label htmlFor='voice'>Voice</label>
+          <select
+            name='voice'
+            value={selection.voice}
+            onChange={(e) => control.setVoice(e.target.value)}
+            >
+            <option value="">Default</option>
+            {selection.voices.map((voice, i) => (
+              <option key={`${voice}_${i}`} value={voice}>{voice}</option>
+              ))}
+          </select>
+        </div>
         <button
           className='play-button'
           onClick={(e) => {
